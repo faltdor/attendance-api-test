@@ -1,28 +1,22 @@
 package com.cuemby.attendance.repositories;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
+public interface ICustomCrudRepository<T, S> {
+	
+	Map<S,T> findAll();
 
-public interface ICustomCrudRepository <T, ID> {
-		List<T> findAll();
+//	List<T> findAllById(Iterable<T> ids);
 
-		List<T> findAllById(Iterable<ID> ids);
+	Map<S,T> saveAll(Iterable<T> entities);
 
-		
-		List<T> saveAll(Iterable<T> entities);
+	T save(T entity);
 
-		
-		Optional<T> save(T entity);
+	T update(T entity);
 
-		
-		void deleteInBatch(Iterable<T> entities);
-
-		
-		void deleteAllInBatch();
-
-		
-		Optional<T> getOne(ID id);
+	Optional<T> getOne(S id);
 
 }

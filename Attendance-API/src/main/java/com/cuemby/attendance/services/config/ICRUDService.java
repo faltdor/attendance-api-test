@@ -7,6 +7,7 @@ public interface ICRUDService<T> {
 	
 	T getById(Integer id);
 	
-	T saveOrUpdate(T domainObject);
+	T createNewEmployee(T domainObject);
+	
 	void delete(Integer id);
 }

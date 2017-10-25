@@ -1,68 +1,85 @@
 package com.cuemby.attendance.repositories.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.stereotype.Component;
 
 import com.cuemby.attendance.domain.Employee;
+import com.cuemby.attendance.domain.factories.UUIDCreator;
 import com.cuemby.attendance.repositories.IEmployeeRepository;
 
 
 @Component
 public class EmployeeRepositoryImpl implements IEmployeeRepository{
 	
-	private List<Employee> employees;
+	private Map<String,Employee> employees;
+	
+	
 	
 	public EmployeeRepositoryImpl() {
-		this.employees = new  ArrayList<>();
+		this.employees = new HashMap<>();
 	}
 
 	@Override
-	public List<Employee> findAll() {
+	public Map<String,Employee> findAll() {
 		return this.employees;
 	}
 
-	@Override
-	public List<Employee> findAllById(Iterable<String> ids) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
-	public List<Employee> saveAll(Iterable<Employee> entities) {
-		entities.forEach(employees::add);
+	public Map<String, Employee> saveAll(Iterable<Employee> entities) {
+		
+		entities.forEach(employee ->{
+			save(employee);			
+		});
 		
 		return this.employees;
 	}
 
+	@SuppressWarnings("static-access")
 	@Override
-	public Optional<Employee> save(Employee entity) {
-		this.employees.add(entity);
-		
-		return getOne(entity.getId());
+	public Employee save(Employee entity) {
+		if(entity.getId() == null && !employeeExist(entity.getIdentification()) ) {
+			entity.setId(UUIDCreator.getInstance().randomUUID());
+			this.employees.put(entity.getId(), entity);
+		}				
+		return entity;
 	}
 
-	@Override
-	public void deleteInBatch(Iterable<Employee> entities) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deleteAllInBatch() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public Optional<Employee> getOne(String id) {
-		return this.employees.stream().
-							 filter(e-> e.getId() == id)
+		return this.employees.values().stream().
+							 filter(e-> e.getId().equalsIgnoreCase(id))
 							 .findFirst();
-//							 .map(Optional::of);
 							 
+	}
+
+	@Override
+	public Employee update(Employee entity) {
+		this.employees.put(entity.getId(), entity);
+		return entity;
+	}
+
+	@Override
+	public boolean employeeExist(String identification) {
+		this.employees.values().forEach(e ->{
+			System.out.println(e.getIdentification());
+			if(e.getIdentification().equalsIgnoreCase(identification)) {System.out.println("Exist");}
+		});
+		
+		
+		
+		Optional<Employee> employeeOptional = this.employees.values().stream().
+				 filter(e-> e.getIdentification().equalsIgnoreCase(identification))
+				 .findFirst();
+		
+		return employeeOptional.isPresent();
 	}
 
 

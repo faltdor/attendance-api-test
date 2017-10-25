@@ -1,9 +1,9 @@
 package com.cuemby.attendance.v1.model.mappers;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
 
-import java.time.LocalDate;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 
 import org.junit.Before;
@@ -25,7 +25,7 @@ public class EmployeeMapperImpl {
 	}
 
 	@Test
-	public void testMapper() {
+	public void testMapper() throws ParseException {
 		//Given
 		Employee employee1 = new Employee();
 		employee1.setFirstName("Employee 1");
@@ -34,8 +34,8 @@ public class EmployeeMapperImpl {
 		employee1.setAge(10);
 		employee1.setPosition("Mannager");
 		employee1.setSalary(600000.0);
-		String birthdate = "16/08/2016";
-		employee1.setBirthdate(LocalDate.parse(birthdate, formatter));
+		String birthdate = "2016-08-01";
+		employee1.setBirthdate(new SimpleDateFormat("yyyy-MM-dd").parse(birthdate));
 		
 		//when
 		EmployeeDTO employeeDTO = mapper.employeeToEmployeeDTO(employee1);

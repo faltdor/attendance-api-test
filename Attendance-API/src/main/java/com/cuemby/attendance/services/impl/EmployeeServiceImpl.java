@@ -5,8 +5,11 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.cuemby.attendance.domain.Employee;
 import com.cuemby.attendance.repositories.IEmployeeRepository;
 import com.cuemby.attendance.services.IEmployeeService;
+import com.cuemby.attendance.services.exception.ResourceAlreadyExistsException;
+import com.cuemby.attendance.services.exception.ResourceNotFoundException;
 import com.cuemby.attendance.v1.model.EmployeeDTO;
 import com.cuemby.attendance.v1.model.mappers.IEmployeeMapper;
 
@@ -24,6 +27,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	@Override
 	public List<EmployeeDTO> listAll() {
 		return employeeRepository.findAll()
+							     .values()
 								 .stream()
 								  .map(employeeMapper::employeeToEmployeeDTO)
 								  .collect(Collectors.toList());
@@ -36,15 +40,33 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	}
 
 	@Override
-	public EmployeeDTO saveOrUpdate(EmployeeDTO domainObject) {
-		// TODO Auto-generated method stub
-		return null;
+	public EmployeeDTO createNewEmployee(EmployeeDTO employeeDto) {
+		
+		if(employeeRepository.employeeExist(employeeDto.getIdentification())) {
+			
+			throw new ResourceAlreadyExistsException("The user "+employeeDto.getIdentification()+" is already registered.");
+		}
+		
+		Employee employee = employeeRepository.save(employeeMapper.employeeDTOToEmployee(employeeDto));
+		
+		return employeeMapper.employeeToEmployeeDTO(employee);	
+	
 	}
 
 	@Override
 	public void delete(Integer id) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	@Override
+	public void updateEstatusEmployeeInactive(String id) {
+		
+		employeeRepository.getOne(id).map(employee -> {
+			employee.setStatus("Inactive");
+			return employeeMapper.employeeToEmployeeDTO(employeeRepository.update(employee));
+		}).orElseThrow(ResourceNotFoundException::new);
+		
 	}
 
 }

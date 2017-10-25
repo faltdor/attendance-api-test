@@ -3,20 +3,15 @@ package com.cuemby.attendance.repositories;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 
-import java.time.LocalDate;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
 import com.cuemby.attendance.domain.Employee;
 import com.cuemby.attendance.repositories.impl.EmployeeRepositoryImpl;
 
@@ -24,7 +19,7 @@ import com.cuemby.attendance.repositories.impl.EmployeeRepositoryImpl;
 //@SpringBootTest
 public class EmployeeRepositoryImplTest {
 
-//	@Autowired
+	// @Autowired
 	EmployeeRepositoryImpl employeeRepositoryImpl;
 
 	DateTimeFormatter formatter;
@@ -37,7 +32,7 @@ public class EmployeeRepositoryImplTest {
 
 	@Test
 	public void testFindAll() {
-		List<Employee> listEmployee = employeeRepositoryImpl.findAll();
+		Map<String, Employee> listEmployee = employeeRepositoryImpl.findAll();
 		assertNotNull(listEmployee);
 		assertThat(listEmployee.size()).isEqualTo(0);
 	}
@@ -48,7 +43,7 @@ public class EmployeeRepositoryImplTest {
 	}
 
 	@Test
-	public void testSave() {
+	public void testSave() throws ParseException {
 		// Given
 		Employee employee1 = new Employee();
 		employee1.setFirstName("Emple 1");
@@ -58,59 +53,41 @@ public class EmployeeRepositoryImplTest {
 		employee1.setAge(10);
 		employee1.setPosition("Mannager");
 		employee1.setSalary(600000.0);
-		String birthdate = "16/08/2016";
+		String birthdate = "2016-08-03";
 
-		employee1.setBirthdate(LocalDate.parse(birthdate, formatter));
-		employee1.setDateAdmission(LocalDate.parse(birthdate, formatter));
+		employee1.setBirthdate(new SimpleDateFormat("yyyy-MM-dd").parse(birthdate));
+		employee1.setDateAdmission(new SimpleDateFormat("yyyy-MM-dd").parse(birthdate));
 		employee1.setStatus("Active");
 
 		// when
+		Employee employeeResult = employeeRepositoryImpl.save(employee1);
 
 		// Then
-		Optional<Employee> employeeResult = employeeRepositoryImpl.save(employee1);
-
 		assertThat(employeeResult).isNotNull();
-		assertThat(employeeResult.isPresent()).isEqualTo(true);
 
 	}
-	
+
 	@Test
 	public void testSaveAll() {
-		//Given
+		// Given
 		Employee employee1 = new Employee();
 		employee1.setFirstName("Employee 1");
-		employee1.setIdentification("1234567");
+		employee1.setIdentification("123456733");
 
 		Employee employee2 = new Employee();
-		employee1.setFirstName("Employee 1");
-		employee1.setIdentification("1234567");
+		employee2.setFirstName("Employee 1");
+		employee2.setIdentification("1234567344");
 
 		Employee employee3 = new Employee();
-		employee1.setFirstName("Employee 1");
-		employee1.setIdentification("1234567");
+		employee3.setFirstName("Employee 1");
+		employee3.setIdentification("1234567444");
 
-		
-		List<Employee> employeeList = employeeRepositoryImpl.saveAll(Arrays.asList(employee1, employee2, employee3));
-		
+		Map<String, Employee> employeeList = employeeRepositoryImpl
+				.saveAll(Arrays.asList(employee1, employee2, employee3));
+
 		assertThat(employeeList).isNotNull();
 		assertThat(employeeList.size()).isEqualTo(3);
-		
-	}
-	
 
-	@Test
-	public void testSaveAndFlush() {
-		assertTrue(true);
-	}
-
-	@Test
-	public void testDeleteInBatch() {
-		assertTrue(true);
-	}
-
-	@Test
-	public void testDeleteAllInBatch() {
-		assertTrue(true);
 	}
 
 	@Test
@@ -119,12 +96,42 @@ public class EmployeeRepositoryImplTest {
 		String id = "Dont exist id";
 
 		// when
-
-		// Then
 		Optional<Employee> employeeResult = employeeRepositoryImpl.getOne(id);
-
+		// Then
 		assertThat(employeeResult).isEqualTo(Optional.empty());
 		assertThat(employeeResult.isPresent()).isEqualTo(false);
+
+	}
+
+	@Test
+	public void testGetOneExist() {
+		// Given
+		Employee employee1 = new Employee();
+		employee1.setId("1");
+		employee1.setFirstName("Employee 1");
+		employee1.setIdentification("3444343434");
+		employee1 = employeeRepositoryImpl.save(employee1);
+		
+		// when
+		Optional<Employee> employeeResult = employeeRepositoryImpl.getOne(employee1.getId());
+		// Then
+		assertThat(employeeResult.isPresent()).isEqualTo(false);
+
+	}
+
+	@Test
+	public void testEmployeeExist() {
+		// Given
+		Employee employee1 = new Employee();
+		employee1.setFirstName("Employee 1");
+		employee1.setIdentification("3444343434");
+
+		Employee employeeResult = employeeRepositoryImpl.save(employee1);
+		assertThat(employeeResult).isNotNull();
+
+		boolean existResult = employeeRepositoryImpl.employeeExist("3444343434");
+		
+		assertThat(existResult).isEqualTo(true);
 
 	}
 

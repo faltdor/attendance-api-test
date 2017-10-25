@@ -9,8 +9,5 @@ public abstract class Entity {
 	
 	public String id;
 	
-	public Entity() {
-		this.id = UUID.randomUUID().toString();
-	}
 	
 }

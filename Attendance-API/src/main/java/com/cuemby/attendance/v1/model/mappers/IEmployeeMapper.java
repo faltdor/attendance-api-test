@@ -3,7 +3,6 @@ package com.cuemby.attendance.v1.model.mappers;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-import org.springframework.stereotype.Component;
 
 import com.cuemby.attendance.domain.Employee;
 import com.cuemby.attendance.v1.model.EmployeeDTO;

@@ -1,13 +1,15 @@
 package com.cuemby.attendance.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +18,7 @@ import org.mockito.MockitoAnnotations;
 
 import com.cuemby.attendance.domain.Employee;
 import com.cuemby.attendance.repositories.IEmployeeRepository;
+import com.cuemby.attendance.services.exception.ResourceAlreadyExistsException;
 import com.cuemby.attendance.services.impl.EmployeeServiceImpl;
 import com.cuemby.attendance.v1.model.EmployeeDTO;
 import com.cuemby.attendance.v1.model.mappers.IEmployeeMapper;
@@ -40,22 +43,22 @@ public class EmployeeServiceImplTest {
 	@Test
 	public void testListAll() {
 		// Given
-		List<Employee> employees = new ArrayList<>(2);
+		Map<String, Employee> employees = new ConcurrentHashMap<>(3);
 		
 		Employee employee1 = new Employee();
 		employee1.setFirstName("Employee 1");
 		employee1.setIdentification("1234567");
-		employees.add(employee1);
+		employees.put("1",employee1);
 		
 		Employee employee2 = new Employee();
-		employee1.setFirstName("Employee 1");
-		employee1.setIdentification("1234567");
-		employees.add(employee2);
+		employee2.setFirstName("Employee 1");
+		employee2.setIdentification("1234567");
+		employees.put("2",employee2);
 		
 		Employee employee3 = new Employee();
-		employee1.setFirstName("Employee 1");
-		employee1.setIdentification("1234567");
-		employees.add(employee3);
+		employee3.setFirstName("Employee 1");
+		employee3.setIdentification("1234567");
+		employees.put("3",employee3);
 		
 		when(employeeRepository.findAll()).thenReturn(employees);
 		
@@ -65,6 +68,47 @@ public class EmployeeServiceImplTest {
 		assertThat(employeeList).isNotNull();
 		assertThat(employeeList).isNotEmpty();
 		assertThat(employeeList.size()).isEqualTo(3);
+		
+	}
+	
+	@Test
+	public void createNewEmployee() {
+		//Given
+		Employee employeeResult = new Employee();
+		employeeResult.setId("1");
+		employeeResult.setFirstName("Employee 1");
+		employeeResult.setIdentification("1234567");
+		
+		EmployeeDTO employeeDTO = new EmployeeDTO();
+		employeeDTO.setFirstName("Employee 1");
+		employeeDTO.setIdentification("1234567");
+		
+		when(employeeRepository.save(any(Employee.class))).thenReturn(employeeResult);
+		
+		//When
+		EmployeeDTO result = employeeServiceImpl.createNewEmployee(employeeDTO);
+		
+		//Them
+		assertThat(result).isNotNull();
+		assertThat(result.getId()).isNotNull();
+		assertThat(result.getIdentification()).isEqualTo("1234567");
+		
+	}
+	
+	@Test(expected=ResourceAlreadyExistsException.class)
+	public void createNewEmployeeExist() {
+		//Given
+		EmployeeDTO employeeDTO = new EmployeeDTO();
+		employeeDTO.setFirstName("Employee 1");
+		employeeDTO.setIdentification("1234567");
+		
+		when(employeeRepository.save(any(Employee.class))).thenThrow(new ResourceAlreadyExistsException());
+		
+		//When
+		employeeServiceImpl.createNewEmployee(employeeDTO);
+		
+		//Them
+		verify(employeeRepository,times(1)).save(any(Employee.class));
 		
 	}
 

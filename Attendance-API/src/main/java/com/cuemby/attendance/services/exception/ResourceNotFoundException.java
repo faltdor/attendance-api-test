@@ -1,4 +1,4 @@
-package com.cuemby.attendance.services;
+package com.cuemby.attendance.services.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
 
