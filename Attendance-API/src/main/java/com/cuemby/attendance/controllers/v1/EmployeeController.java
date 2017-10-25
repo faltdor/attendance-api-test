@@ -39,7 +39,7 @@ public class EmployeeController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public EmployeeDTO saveEmployee(@Valid @RequestBody EmployeeDTO employeeDto){
-		return employeeServiceImpl.createNewEmployee(employeeDto);
+		return employeeServiceImpl.create(employeeDto);
 	}
 	
 	@PutMapping("/{id}/status")

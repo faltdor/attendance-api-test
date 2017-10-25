@@ -33,14 +33,9 @@ public class EmployeeServiceImpl implements IEmployeeService {
 								  .collect(Collectors.toList());
 	}
 
-	@Override
-	public EmployeeDTO getById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
-	public EmployeeDTO createNewEmployee(EmployeeDTO employeeDto) {
+	public EmployeeDTO create(EmployeeDTO employeeDto) {
 		
 		if(employeeRepository.employeeExist(employeeDto.getIdentification())) {
 			
@@ -53,20 +48,15 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	
 	}
 
-	@Override
-	public void delete(Integer id) {
-		// TODO Auto-generated method stub
-
-	}
 	
 	@Override
 	public void updateEstatusEmployeeInactive(String id) {
-		
 		employeeRepository.getOne(id).map(employee -> {
 			employee.setStatus("Inactive");
 			return employeeMapper.employeeToEmployeeDTO(employeeRepository.update(employee));
 		}).orElseThrow(ResourceNotFoundException::new);
-		
+
+				
 	}
 
 }

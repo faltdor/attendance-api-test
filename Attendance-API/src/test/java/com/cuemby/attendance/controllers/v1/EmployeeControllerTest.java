@@ -3,6 +3,7 @@ package com.cuemby.attendance.controllers.v1;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -23,15 +24,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.cuemby.attendance.controllers.v1.EmployeeController;
 import com.cuemby.attendance.controllers.v1.exceptions.RestResponseEntityExceptionHandler;
-import com.cuemby.attendance.domain.Employee;
 import com.cuemby.attendance.services.impl.EmployeeServiceImpl;
 import com.cuemby.attendance.v1.model.EmployeeDTO;
 
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 
-public class EmployeeControllerTest {
+public class EmployeeControllerTest extends AbstractRestControllerTest {
 
 	@Mock
 	EmployeeServiceImpl employeeServiceImpl;
@@ -78,8 +77,6 @@ public class EmployeeControllerTest {
 	@Test
 	public void testInactiveUser() throws Exception {
 		// Given
-
-
 		mockMvc.perform(put(EmployeeController.BASE_URL+"/1/status")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isCreated());
@@ -90,18 +87,23 @@ public class EmployeeControllerTest {
 	@Test
 	public void testSaveEmployeer() throws Exception {
 		// Given
-
 		EmployeeDTO employee1 = new EmployeeDTO();
 		employee1.setFirstName("Employee 1");
 		employee1.setIdentification("1234567");
 
-		when(employeeServiceImpl.createNewEmployee(any(EmployeeDTO.class))).thenReturn(employee1);
+		when(employeeServiceImpl.create(any(EmployeeDTO.class))).thenReturn(employee1);
 
+		//{"id":null,"identification":"1234567","firstName":"Employee 1","lastName":null,"age":null,"position":null,"salary":null,"birthdate":null,"dateAdmission":null,"status":null}
 		mockMvc.perform(post(EmployeeController.BASE_URL)
-				.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk());
-		// .andExpect(jsonPath("$.firstName",equalTo("Employee 1")));
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(asJsonString(employee1)))
+				.andExpect(status().isBadRequest());
 
 	}
+	
+	
+	
+	
+	
 
 }

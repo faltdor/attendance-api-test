@@ -7,12 +7,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
 import com.cuemby.attendance.domain.Employee;
+import com.cuemby.attendance.enums.StatusEmployee;
 import com.cuemby.attendance.repositories.impl.EmployeeRepositoryImpl;
 
 //@RunWith(SpringRunner.class)
@@ -38,11 +40,6 @@ public class EmployeeRepositoryImplTest {
 	}
 
 	@Test
-	public void testFindAllById() {
-		assertTrue(true);
-	}
-
-	@Test
 	public void testSave() throws ParseException {
 		// Given
 		Employee employee1 = new Employee();
@@ -57,7 +54,7 @@ public class EmployeeRepositoryImplTest {
 
 		employee1.setBirthdate(new SimpleDateFormat("yyyy-MM-dd").parse(birthdate));
 		employee1.setDateAdmission(new SimpleDateFormat("yyyy-MM-dd").parse(birthdate));
-		employee1.setStatus("Active");
+		employee1.setStatus(StatusEmployee.ACTIVE.toString());
 
 		// when
 		Employee employeeResult = employeeRepositoryImpl.save(employee1);
@@ -111,7 +108,7 @@ public class EmployeeRepositoryImplTest {
 		employee1.setFirstName("Employee 1");
 		employee1.setIdentification("3444343434");
 		employee1 = employeeRepositoryImpl.save(employee1);
-		
+
 		// when
 		Optional<Employee> employeeResult = employeeRepositoryImpl.getOne(employee1.getId());
 		// Then
@@ -130,8 +127,48 @@ public class EmployeeRepositoryImplTest {
 		assertThat(employeeResult).isNotNull();
 
 		boolean existResult = employeeRepositoryImpl.employeeExist("3444343434");
-		
+
 		assertThat(existResult).isEqualTo(true);
+
+	}
+
+	@Test
+	public void testUpdate() {
+		// Given
+		Employee employee1 = new Employee();
+		employee1.setId("12345");
+		employee1.setFirstName("Employee 1");
+		employee1.setIdentification("3444343434");
+		employee1.setStatus(StatusEmployee.INACTIVE.toString());
+
+		Employee employee = employeeRepositoryImpl.update(employee1);
+
+		assertThat(employee).isNotNull();
+
+		Optional<Employee> result = employeeRepositoryImpl.getOne("12345");
+
+		assertThat(result.isPresent()).isEqualTo(true);
+		assertThat(result.get().getStatus()).isEqualTo(StatusEmployee.INACTIVE.toString());
+
+	}
+
+	@Test
+	public void testFindAllByStatus() {
+		// Given
+		Employee employee1 = new Employee();
+		employee1.setId("12345");
+		employee1.setFirstName("Employee 1");
+		employee1.setIdentification("3444343434");
+		employee1.setStatus(StatusEmployee.INACTIVE.toString());
+
+		Employee employee = employeeRepositoryImpl.update(employee1);
+
+		assertThat(employee).isNotNull();
+
+		List<Employee> result = employeeRepositoryImpl.findAllByStatus(StatusEmployee.INACTIVE.toString());
+		
+		assertThat(result).isNotNull();
+		assertThat(result.isEmpty()).isEqualTo(true);
 
 	}
 

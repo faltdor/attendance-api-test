@@ -2,19 +2,24 @@ package com.cuemby.attendance.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.MediaType;
 
 import com.cuemby.attendance.domain.Employee;
 import com.cuemby.attendance.repositories.IEmployeeRepository;
@@ -23,14 +28,13 @@ import com.cuemby.attendance.services.impl.EmployeeServiceImpl;
 import com.cuemby.attendance.v1.model.EmployeeDTO;
 import com.cuemby.attendance.v1.model.mappers.IEmployeeMapper;
 
-
 public class EmployeeServiceImplTest {
 
 	@Mock
 	IEmployeeRepository employeeRepository;
 
 	EmployeeServiceImpl employeeServiceImpl;
-	
+
 	DateTimeFormatter formatter;
 
 	@Before
@@ -44,74 +48,97 @@ public class EmployeeServiceImplTest {
 	public void testListAll() {
 		// Given
 		Map<String, Employee> employees = new ConcurrentHashMap<>(3);
-		
+
 		Employee employee1 = new Employee();
 		employee1.setFirstName("Employee 1");
 		employee1.setIdentification("1234567");
-		employees.put("1",employee1);
-		
+		employees.put("1", employee1);
+
 		Employee employee2 = new Employee();
 		employee2.setFirstName("Employee 1");
 		employee2.setIdentification("1234567");
-		employees.put("2",employee2);
-		
+		employees.put("2", employee2);
+
 		Employee employee3 = new Employee();
 		employee3.setFirstName("Employee 1");
 		employee3.setIdentification("1234567");
-		employees.put("3",employee3);
-		
+		employees.put("3", employee3);
+
 		when(employeeRepository.findAll()).thenReturn(employees);
-		
-		//When
+
+		// When
 		List<EmployeeDTO> employeeList = employeeServiceImpl.listAll();
-		
+
 		assertThat(employeeList).isNotNull();
 		assertThat(employeeList).isNotEmpty();
 		assertThat(employeeList.size()).isEqualTo(3);
-		
+
 	}
-	
+
 	@Test
 	public void createNewEmployee() {
-		//Given
+		// Given
 		Employee employeeResult = new Employee();
 		employeeResult.setId("1");
 		employeeResult.setFirstName("Employee 1");
 		employeeResult.setIdentification("1234567");
-		
+
 		EmployeeDTO employeeDTO = new EmployeeDTO();
 		employeeDTO.setFirstName("Employee 1");
 		employeeDTO.setIdentification("1234567");
-		
+
 		when(employeeRepository.save(any(Employee.class))).thenReturn(employeeResult);
-		
-		//When
-		EmployeeDTO result = employeeServiceImpl.createNewEmployee(employeeDTO);
-		
-		//Them
+
+		// When
+		EmployeeDTO result = employeeServiceImpl.create(employeeDTO);
+
+		// Them
 		assertThat(result).isNotNull();
 		assertThat(result.getId()).isNotNull();
 		assertThat(result.getIdentification()).isEqualTo("1234567");
-		
+
 	}
-	
-	@Test(expected=ResourceAlreadyExistsException.class)
-	public void createNewEmployeeExist() {
-		//Given
+
+	@Test(expected = ResourceAlreadyExistsException.class)
+	public void testValidateExceptionWhenUserExist() {
+		// Given
 		EmployeeDTO employeeDTO = new EmployeeDTO();
 		employeeDTO.setFirstName("Employee 1");
 		employeeDTO.setIdentification("1234567");
-		
+
 		when(employeeRepository.save(any(Employee.class))).thenThrow(new ResourceAlreadyExistsException());
-		
-		//When
-		employeeServiceImpl.createNewEmployee(employeeDTO);
-		
-		//Them
-		verify(employeeRepository,times(1)).save(any(Employee.class));
-		
+
+		// When
+		employeeServiceImpl.create(employeeDTO);
+
+		// Them
+		verify(employeeRepository, times(1)).save(any(Employee.class));
+
 	}
 
-	
+	@Test
+	public void updateEstatusEmployeeInactive() {
+		// Given
+		Employee employee = new Employee();
+		employee.setFirstName("Employee 1");
+		employee.setIdentification("1234567");
+		String id = "1234567";
+		employee.setId(id);
+		
+		
+		Employee employeeDTO = new Employee();
+		employeeDTO.setFirstName("Employee 1");
+		employeeDTO.setIdentification("1234567");
+		employeeDTO.setId(id);
+
+		when(employeeRepository.getOne(anyString())).thenReturn(Optional.of(employeeDTO));
+
+		when(employeeRepository.update(any(Employee.class))).thenReturn(employeeDTO);
+				
+				
+		employeeServiceImpl.updateEstatusEmployeeInactive(id);
+
+		verify(employeeRepository, times(1)).update(any(Employee.class));
+	}
 
 }

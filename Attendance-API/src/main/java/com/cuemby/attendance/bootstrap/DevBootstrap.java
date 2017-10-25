@@ -12,6 +12,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import com.cuemby.attendance.domain.Employee;
+import com.cuemby.attendance.enums.StatusEmployee;
 import com.cuemby.attendance.repositories.impl.EmployeeRepositoryImpl;
 
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +51,7 @@ public class DevBootstrap  implements ApplicationListener<ContextRefreshedEvent>
 		employee1.setSalary(600000.0);
 		String birthdate = "2016-08-01";
 		employee1.setBirthdate(new SimpleDateFormat("yyyy-MM-dd").parse(birthdate));
-		employee1.setStatus("Active");
+		employee1.setStatus(StatusEmployee.ACTIVE.toString());
 		
 		Employee employee2 = new Employee();
 		employee2.setFirstName("Employee 1");
@@ -60,7 +61,7 @@ public class DevBootstrap  implements ApplicationListener<ContextRefreshedEvent>
 		employee2.setPosition("Mannager");
 		employee2.setSalary(600000.0);
 		employee2.setBirthdate(new SimpleDateFormat("yyyy-MM-dd").parse(birthdate));
-		employee2.setStatus("Active");
+		employee2.setStatus(StatusEmployee.INACTIVE.toString());
 		
 		Employee employee3 = new Employee();
 		employee3.setFirstName("Employee 1");
@@ -70,7 +71,7 @@ public class DevBootstrap  implements ApplicationListener<ContextRefreshedEvent>
 		employee3.setPosition("Mannager");
 		employee3.setSalary(600000.0);
 		employee3.setBirthdate(new SimpleDateFormat("yyyy-MM-dd").parse(birthdate));
-		employee3.setStatus("inactive");
+		employee3.setStatus(StatusEmployee.ACTIVE.toString());
 		return Arrays.asList(employee1, employee2, employee3);
 
 	}
