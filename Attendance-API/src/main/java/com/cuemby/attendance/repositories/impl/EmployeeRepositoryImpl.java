@@ -1,7 +1,5 @@
 package com.cuemby.attendance.repositories.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -24,7 +22,7 @@ public class EmployeeRepositoryImpl implements IEmployeeRepository{
 	
 	
 	public EmployeeRepositoryImpl() {
-		this.employees = new HashMap<>();
+		this.employees = new ConcurrentHashMap<>();
 	}
 
 	@Override

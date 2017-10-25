@@ -1,6 +1,5 @@
 package com.cuemby.attendance.domain;
 
-import java.util.UUID;
 
 import lombok.Data;
 

@@ -12,7 +12,7 @@ import org.junit.Test;
 import com.cuemby.attendance.domain.Employee;
 import com.cuemby.attendance.v1.model.EmployeeDTO;
 
-public class EmployeeMapperImpl {
+public class EmployeeMapperImplTest {
 	
 	IEmployeeMapper mapper; 
 	

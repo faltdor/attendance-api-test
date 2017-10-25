@@ -1,6 +1,7 @@
 package com.cuemby.attendance.services.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
+	private static final long serialVersionUID = 1L;
 
 	public ResourceNotFoundException() {
 	}

@@ -11,8 +11,10 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import com.cuemby.attendance.domain.Attendance;
 import com.cuemby.attendance.domain.Employee;
 import com.cuemby.attendance.enums.StatusEmployee;
+import com.cuemby.attendance.repositories.impl.AttendanceRepositoryImpl;
 import com.cuemby.attendance.repositories.impl.EmployeeRepositoryImpl;
 
 import lombok.extern.slf4j.Slf4j;
@@ -22,20 +24,24 @@ import lombok.extern.slf4j.Slf4j;
 public class DevBootstrap  implements ApplicationListener<ContextRefreshedEvent>{
 	
 	private final EmployeeRepositoryImpl employeeRepositoryImpl;
+	private final AttendanceRepositoryImpl attendanceRepositoryImpl;
 	
 	@Autowired
-	public DevBootstrap(EmployeeRepositoryImpl employeeRepositoryImpl) {
+	public DevBootstrap(EmployeeRepositoryImpl employeeRepositoryImpl,
+						AttendanceRepositoryImpl attendanceRepositoryImpl) {
 		this.employeeRepositoryImpl = employeeRepositoryImpl;
+		this.attendanceRepositoryImpl = attendanceRepositoryImpl;
 	}
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent arg0) {
 		log.debug("Saving data to Dababase ");
-//		try {
-//			employeeRepositoryImpl.saveAll(getAllEmployees());
-//		} catch (ParseException e) {
-//			 log.error(e.getMessage());
-//		}
+		try {
+			attendanceRepositoryImpl.saveAll(getAllattendance());
+			//employeeRepositoryImpl.saveAll(getAllEmployees());
+		} catch (ParseException e) {
+			 log.error(e.getMessage());
+		}
 	}
 
 	private List<Employee> getAllEmployees() throws ParseException {
@@ -75,5 +81,25 @@ public class DevBootstrap  implements ApplicationListener<ContextRefreshedEvent>
 		return Arrays.asList(employee1, employee2, employee3);
 
 	}
+	
+	private List<Attendance> getAllattendance () throws ParseException {
+		String dateAssistance = "2016-08-03";
+		Attendance attendance1 = new Attendance();
+		attendance1.setEmployeeId("1234455");
+		attendance1.setCurrentDateAssistance(new SimpleDateFormat("yyyy-MM-dd").parse(dateAssistance));
 
+		Attendance attendance2 = new Attendance();
+		attendance2.setEmployeeId("1234455");
+		attendance2.setCurrentDateAssistance(new SimpleDateFormat("yyyy-MM-dd").parse(dateAssistance));
+
+		Attendance attendance3 = new Attendance();
+		attendance3.setEmployeeId("1234455");
+		attendance3.setCurrentDateAssistance(new SimpleDateFormat("yyyy-MM-dd").parse(dateAssistance));
+		
+		return Arrays.asList(attendance1,attendance2,attendance3);
+		
+	}
+	
+	
+	
 }

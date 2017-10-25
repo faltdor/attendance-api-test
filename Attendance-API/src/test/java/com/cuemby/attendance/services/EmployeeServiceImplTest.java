@@ -6,8 +6,6 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -19,7 +17,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.MediaType;
 
 import com.cuemby.attendance.domain.Employee;
 import com.cuemby.attendance.repositories.IEmployeeRepository;
