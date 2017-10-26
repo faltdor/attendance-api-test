@@ -26,7 +26,7 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
   	 let dateNow =  new Date();
 
-  	 this.model = new Attendance("1234",dateNow);
+  	 this.model = new Attendance("",dateNow);
 
   	 
  

@@ -44,7 +44,7 @@ public class AttendanceServiceImpl implements IAttendanceService {
 
 			throw new ResourceNotFoundException("The user " + attendanceDto.getEmployeeId() + "  is not registered.");
 		}
-
+		attendanceDto.setEmployeeId(optionalEmployee.get().getId());
 		Attendance attendance = attendanceRepository.save(attendanceMapper.attendanceDTOToAttendance(attendanceDto));
 
 		return attendanceMapper.attendanceToAttendanceDTO(attendance);
@@ -62,12 +62,17 @@ public class AttendanceServiceImpl implements IAttendanceService {
 		
 		List<Attendance> attList = attendanceRepository.findAllByDateInitDateEnd(attendanceFilter.getDateInit(),attendanceFilter.getDateEnd());
 		
+		if (attList.isEmpty()) {
+
+			throw new ResourceNotFoundException("No records were found for the dates given.");
+		}
+		
 		List<AttendanceEmployeeDTO> listAttendance = new ArrayList<>(attList.size());
 		
 		
 		attList.forEach(atten -> {
 			
-			Optional<Employee> optional = employeeRepository.findAllByStatusId(StatusEmployee.ACTIVE.toString(), atten.getId());
+			Optional<Employee> optional = employeeRepository.findAllByStatusId(StatusEmployee.ACTIVE.toString(), atten.getEmployeeId());
 			
 			if(optional.isPresent()) {
 				Employee employee = optional.get();

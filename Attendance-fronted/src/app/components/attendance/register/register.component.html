@@ -25,12 +25,15 @@
 
       <div class="form-group">
         <label for="currentDateAssistance">Date</label>
-        <input type="date" disabled="true" class="form-control" id="currentDateAssistance"
-               [(ngModel)]="model.currentDateAssistance " name="currentDateAssistance">
+        <input type="hidden" class="form-control" id="currentDateAssistance"
+               [(ngModel)]="model.currentDateAssistance " name="currentDateAssistance" 
+                
+               >
+          <p>{{model.currentDateAssistance | date:"yyyy/MM/dd"}}</p>
       </div>
 
       <button type="submit" class="btn btn-primary" [disabled]="!employeeForm.form.valid">Save</button>
-      <button type="button" class="btn btn-default" (click)="newEmploye(); employeeForm.reset()">New Register</button>
+      <button type="button" class="btn btn-default" (click)="newEmploye(); ">New Register</button>
     </form>
   </div>
 

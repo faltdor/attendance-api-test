@@ -89,7 +89,7 @@ public class EmployeeRepositoryImpl implements IEmployeeRepository{
 	public Optional<Employee> findAllByStatusId(String status, String employeeId) {
 		return this.employees.values()
 				 .stream()
-				 .filter(e -> (e.getStatus().equalsIgnoreCase(StatusEmployee.ACTIVE.toString()) && e.getId().equalsIgnoreCase(employeeId)))
+				 .filter(e -> (e.getStatus().equalsIgnoreCase(status) && e.getId().equalsIgnoreCase(employeeId)))
 				 .findFirst();
 	}
 	
@@ -97,7 +97,7 @@ public class EmployeeRepositoryImpl implements IEmployeeRepository{
 	public Optional<Employee> findByIdentification(String status, String identification) {
 		return this.employees.values()
 				 .stream()
-				 .filter(e -> (e.getStatus().equalsIgnoreCase(StatusEmployee.ACTIVE.toString()) && e.getIdentification().equalsIgnoreCase(identification)))
+				 .filter(e -> (e.getStatus().equalsIgnoreCase(status) && e.getIdentification().equalsIgnoreCase(identification)))
 				 .findFirst();
 	}
 

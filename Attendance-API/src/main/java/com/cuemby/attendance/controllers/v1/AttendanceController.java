@@ -1,5 +1,7 @@
 package com.cuemby.attendance.controllers.v1;
 
+import java.util.Date;
+
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
@@ -40,10 +42,11 @@ public class AttendanceController {
 		return attendanceServiceImpl.create(attendanceDto);
 	}
 	
-	@GetMapping("/employees")
+	@PostMapping("/employees")
 	@ResponseStatus(HttpStatus.OK)
-	public AttendanceEmployeesDTO getEmployeesAttendance(@Valid @RequestBody AttendanceFilterDTO filter) {
-		return new AttendanceEmployeesDTO(attendanceServiceImpl.listEmployeeAttendance(filter));
+	public AttendanceEmployeesDTO getEmployeesAttendance(@RequestBody AttendanceFilterDTO filter ) {
+		
+		return new AttendanceEmployeesDTO(attendanceServiceImpl.listEmployeeAttendance(new AttendanceFilterDTO(filter.getDateInit(),filter.getDateEnd())));
 	}
 
 }

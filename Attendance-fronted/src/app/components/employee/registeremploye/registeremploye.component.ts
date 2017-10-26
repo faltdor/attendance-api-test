@@ -12,7 +12,7 @@ import { EmployeeService } from '../../../services/employee.service';
 })
 export class RegisteremployeComponent implements OnInit {
 
-  model = new Employee( 'First name','Last Name',' 123467','Manager',6000,'2017-11-17', 8);
+  model = new Employee( 'First name','Last Name','123467','Manager',6000,'2017-11-17', 8);
   submitted = false;
 
    
