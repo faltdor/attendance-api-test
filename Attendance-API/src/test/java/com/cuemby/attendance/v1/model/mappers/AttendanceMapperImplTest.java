@@ -10,7 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.cuemby.attendance.domain.Attendance;
-import com.cuemby.attendance.v1.model.AttendanceDTO;
+import com.cuemby.attendance.model.v1.AttendanceDTO;
+import com.cuemby.attendance.model.v1.mappers.IAttendanceMapper;
 
 public class AttendanceMapperImplTest {
 	

@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cuemby.attendance.model.v1.AttendanceDTO;
+import com.cuemby.attendance.model.v1.AttendanceEmployeesDTO;
+import com.cuemby.attendance.model.v1.AttendanceFilterDTO;
+import com.cuemby.attendance.model.v1.AttendanceListDTO;
 import com.cuemby.attendance.services.impl.AttendanceServiceImpl;
-import com.cuemby.attendance.v1.model.AttendanceDTO;
-import com.cuemby.attendance.v1.model.AttendanceEmployeesDTO;
-import com.cuemby.attendance.v1.model.AttendanceFilterDTO;
-import com.cuemby.attendance.v1.model.AttendanceListDTO;
 
 @RestController
 @RequestMapping(AttendanceController.BASE_URL)

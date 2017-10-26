@@ -31,13 +31,13 @@ import org.mockito.MockitoAnnotations;
 import com.cuemby.attendance.domain.Attendance;
 import com.cuemby.attendance.domain.Employee;
 import com.cuemby.attendance.enums.StatusEmployee;
+import com.cuemby.attendance.model.v1.AttendanceDTO;
+import com.cuemby.attendance.model.v1.AttendanceEmployeeDTO;
+import com.cuemby.attendance.model.v1.mappers.IAttendanceMapper;
 import com.cuemby.attendance.repositories.IAttendanceRespository;
 import com.cuemby.attendance.repositories.IEmployeeRepository;
 import com.cuemby.attendance.services.exception.ResourceNotFoundException;
 import com.cuemby.attendance.services.impl.AttendanceServiceImpl;
-import com.cuemby.attendance.v1.model.AttendanceDTO;
-import com.cuemby.attendance.v1.model.AttendanceEmployeeDTO;
-import com.cuemby.attendance.v1.model.mappers.IAttendanceMapper;
 
 public class AttendanceServiceImplTest {
 

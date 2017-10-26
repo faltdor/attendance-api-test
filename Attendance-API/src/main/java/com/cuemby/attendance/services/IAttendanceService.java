@@ -2,9 +2,9 @@ package com.cuemby.attendance.services;
 
 import java.util.List;
 
-import com.cuemby.attendance.v1.model.AttendanceDTO;
-import com.cuemby.attendance.v1.model.AttendanceEmployeeDTO;
-import com.cuemby.attendance.v1.model.AttendanceFilterDTO;
+import com.cuemby.attendance.model.v1.AttendanceDTO;
+import com.cuemby.attendance.model.v1.AttendanceEmployeeDTO;
+import com.cuemby.attendance.model.v1.AttendanceFilterDTO;
 
 public interface IAttendanceService {
 	

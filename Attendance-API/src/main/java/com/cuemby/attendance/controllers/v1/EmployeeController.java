@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cuemby.attendance.model.v1.EmployeeDTO;
+import com.cuemby.attendance.model.v1.EmployeeListDTO;
 import com.cuemby.attendance.services.impl.EmployeeServiceImpl;
-import com.cuemby.attendance.v1.model.EmployeeDTO;
-import com.cuemby.attendance.v1.model.EmployeeListDTO;
 
 
 @RestController

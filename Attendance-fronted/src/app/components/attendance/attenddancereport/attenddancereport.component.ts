@@ -23,7 +23,7 @@ export class AttenddancereportComponent implements OnInit {
 
 
   onSubmit(){
-  	console.log(this.filterModel);
+  	
   	this.messageError = "";
   	this.attendanceService.getEmployeesAttendance(this.filterModel)
   						.subscribe(employee =>{  							

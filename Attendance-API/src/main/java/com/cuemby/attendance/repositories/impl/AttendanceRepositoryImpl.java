@@ -61,6 +61,7 @@ public class AttendanceRepositoryImpl implements IAttendanceRespository {
 
 	@Override
 	public List<Attendance> findAllByDateInitDateEnd(Date dateInit, Date dateEnd) {
+		
 		return this.attendanceList.values().stream().
 		 filter(e-> (e.getCurrentDateAssistance().after(dateInit) && e.getCurrentDateAssistance().before(dateEnd)) == true)
 		 .collect(Collectors.toList());

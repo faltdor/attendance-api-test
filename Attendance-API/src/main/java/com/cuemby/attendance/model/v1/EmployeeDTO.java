@@ -1,4 +1,4 @@
-package com.cuemby.attendance.v1.model;
+package com.cuemby.attendance.model.v1;
 
 import java.util.Date;
 
@@ -25,7 +25,7 @@ public class EmployeeDTO {
 	@Size(min = 3, max = 255)
 	private String lastName;
 	@Min(1)
-	@Max(200)
+	@Max(120)
 	private Integer age;
 	
 	@NotBlank

@@ -1,4 +1,4 @@
-package com.cuemby.attendance.v1.model;
+package com.cuemby.attendance.model.v1;
 
 import java.util.List;
 

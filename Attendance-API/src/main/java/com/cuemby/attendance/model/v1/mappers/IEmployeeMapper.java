@@ -1,11 +1,11 @@
-package com.cuemby.attendance.v1.model.mappers;
+package com.cuemby.attendance.model.v1.mappers;
 
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 import com.cuemby.attendance.domain.Employee;
-import com.cuemby.attendance.v1.model.EmployeeDTO;
+import com.cuemby.attendance.model.v1.EmployeeDTO;
 
 @Mapper
 public interface IEmployeeMapper {

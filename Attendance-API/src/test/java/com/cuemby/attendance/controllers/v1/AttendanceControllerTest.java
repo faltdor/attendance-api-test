@@ -21,8 +21,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.cuemby.attendance.controllers.v1.exceptions.RestResponseEntityExceptionHandler;
+import com.cuemby.attendance.model.v1.AttendanceDTO;
 import com.cuemby.attendance.services.impl.AttendanceServiceImpl;
-import com.cuemby.attendance.v1.model.AttendanceDTO;
 
 import static org.mockito.Matchers.any;
 

@@ -23,8 +23,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.cuemby.attendance.controllers.v1.EmployeeController;
 import com.cuemby.attendance.controllers.v1.exceptions.RestResponseEntityExceptionHandler;
+import com.cuemby.attendance.model.v1.EmployeeDTO;
 import com.cuemby.attendance.services.impl.EmployeeServiceImpl;
-import com.cuemby.attendance.v1.model.EmployeeDTO;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;

@@ -20,11 +20,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.cuemby.attendance.domain.Employee;
+import com.cuemby.attendance.model.v1.EmployeeDTO;
+import com.cuemby.attendance.model.v1.mappers.IEmployeeMapper;
 import com.cuemby.attendance.repositories.IEmployeeRepository;
 import com.cuemby.attendance.services.exception.ResourceAlreadyExistsException;
 import com.cuemby.attendance.services.impl.EmployeeServiceImpl;
-import com.cuemby.attendance.v1.model.EmployeeDTO;
-import com.cuemby.attendance.v1.model.mappers.IEmployeeMapper;
 
 public class EmployeeServiceImplTest {
 

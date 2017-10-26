@@ -1,7 +1,6 @@
-package com.cuemby.attendance.v1.model;
+package com.cuemby.attendance.model.v1;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
