@@ -13,7 +13,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class EmployeeDTO {
+public class EmployeeDTO { 
 	private String id;
 	@NotBlank
 	@Size(min = 3, max = 20)
@@ -34,6 +34,6 @@ public class EmployeeDTO {
 	private Date birthdate;	
 	private Date dateAdmission;
 	
-	@NotBlank
+	
 	private String status;
 }

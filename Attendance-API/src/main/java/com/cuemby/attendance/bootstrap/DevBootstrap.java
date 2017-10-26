@@ -37,7 +37,7 @@ public class DevBootstrap  implements ApplicationListener<ContextRefreshedEvent>
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent arg0) {
 		log.debug("Saving data to Dababase ");
-		try {
+	/*	try {
 			employeeRepositoryImpl.saveAll(getAllEmployees());
 			
 			
@@ -67,7 +67,7 @@ public class DevBootstrap  implements ApplicationListener<ContextRefreshedEvent>
 			
 		} catch (ParseException e) {
 			 log.error(e.getMessage());
-		}
+		}*/
 	}
 
 	private List<Employee> getAllEmployees() throws ParseException {
