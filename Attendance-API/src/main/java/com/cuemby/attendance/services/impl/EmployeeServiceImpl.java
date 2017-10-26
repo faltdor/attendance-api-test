@@ -28,12 +28,13 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 	@Override
 	public List<EmployeeDTO> listAll() {
-		return employeeRepository.findAll()
-							     .values()
+		return employeeRepository.findAllByStatus(StatusEmployee.ACTIVE.toString())
 								 .stream()
 								  .map(employeeMapper::employeeToEmployeeDTO)
 								  .collect(Collectors.toList());
 	}
+	
+
 
 
 	@Override
@@ -54,7 +55,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	@Override
 	public void updateEstatusEmployeeInactive(String id) {
 		employeeRepository.getOne(id).map(employee -> {
-			employee.setStatus("Inactive");
+			employee.setStatus(StatusEmployee.INACTIVE.toString());
 			return employeeMapper.employeeToEmployeeDTO(employeeRepository.update(employee));
 		}).orElseThrow(ResourceNotFoundException::new);
 

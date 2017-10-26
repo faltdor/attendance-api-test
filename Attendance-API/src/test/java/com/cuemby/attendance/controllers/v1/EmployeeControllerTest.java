@@ -3,6 +3,7 @@ package com.cuemby.attendance.controllers.v1;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -75,7 +76,7 @@ public class EmployeeControllerTest extends AbstractRestControllerTest {
 	@Test
 	public void testInactiveUser() throws Exception {
 		// Given
-		mockMvc.perform(put(EmployeeController.BASE_URL+"/1/status")
+		mockMvc.perform(delete(EmployeeController.BASE_URL+"/1")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isCreated());
 		

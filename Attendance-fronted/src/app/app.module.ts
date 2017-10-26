@@ -17,6 +17,7 @@ import { EmployeeService } from './services/employee.service';
 import { AttendanceService } from './services/attendance.service';
 
 import { RegisterComponent } from './components/attendance/register/register.component';
+import { EmployeesComponent } from './components/employee/employees/employees.component';
 
 
 
@@ -27,7 +28,8 @@ import { RegisterComponent } from './components/attendance/register/register.com
     NavbarComponent,
     HomeComponent,
     RegisteremployeComponent,
-    RegisterComponent
+    RegisterComponent,
+    EmployeesComponent
   ],
   imports: [
     BrowserModule,

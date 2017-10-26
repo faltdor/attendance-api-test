@@ -1,5 +1,5 @@
 <div class="container">
-  <div>
+  	<div>
        <div class="alert alert-dismissible alert-success" *ngIf="messageOK">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         <strong>Well done!</strong> {{messageOK}}
@@ -26,7 +26,7 @@
       <div class="form-group">
         <label for="currentDateAssistance">Date</label>
         <input type="date" disabled="true" class="form-control" id="currentDateAssistance"
-               [(ngModel)]="model.currentDateAssistance" name="currentDateAssistance">
+               [(ngModel)]="model.currentDateAssistance " name="currentDateAssistance">
       </div>
 
       <button type="submit" class="btn btn-primary" [disabled]="!employeeForm.form.valid">Save</button>

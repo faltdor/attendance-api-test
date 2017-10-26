@@ -1,5 +1,6 @@
 package com.cuemby.attendance.repositories.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -8,7 +9,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import com.cuemby.attendance.domain.Attendance;
 import com.cuemby.attendance.domain.Employee;
 import com.cuemby.attendance.domain.factories.UUIDCreator;
 import com.cuemby.attendance.enums.StatusEmployee;
@@ -55,6 +55,7 @@ public class EmployeeRepositoryImpl implements IEmployeeRepository{
 		if(entity.getId() == null && !employeeExist(entity.getIdentification()) ) {
 			entity.setId(UUIDCreator.getInstance().randomUUID());
 			entity.setStatus(StatusEmployee.ACTIVE.toString());
+			entity.setDateAdmission(new Date());
 			this.employees.put(entity.getId(), entity);
 		}				
 		return entity;

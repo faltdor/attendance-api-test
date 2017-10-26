@@ -78,7 +78,7 @@ public class AttendanceServiceImplTest {
 			employee1.setFirstName("Emple 1");
 			employee1.setIdentification("9999999");
 
-			when(employeeRepository.getOne(anyString())).thenReturn(Optional.of(employee1));
+			when(employeeRepository.findByIdentification(anyString(),anyString())).thenReturn(Optional.of(employee1));
 
 			when(attendanceRepository.save(any(Attendance.class))).thenReturn(attendance);
 
