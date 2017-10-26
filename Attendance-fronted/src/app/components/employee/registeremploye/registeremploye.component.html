@@ -1,0 +1,68 @@
+<div class="container">
+  <div>
+       <div class="alert alert-dismissible alert-success" *ngIf="messageOK">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Well done!</strong> {{messageOK}}
+      </div>
+      <div class="alert alert-dismissible alert-danger" *ngIf="messageError">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Oh snap!</strong> {{messageError}}
+      </div>
+
+    <h1>Employee Form</h1>
+    <form (ngSubmit)="onSubmit()" #employeeForm="ngForm">
+      <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input type="text" class="form-control" id="firstName"
+               required
+               [(ngModel)]="model.firstName" name="firstName"
+               #firstName="ngModel">
+        <div [hidden]="firstName.valid || firstName.pristine"
+             class="alert alert-danger">
+          Name is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input type="text" class="form-control" id="lastName"
+               [(ngModel)]="model.lastName" name="lastName">
+      </div>
+
+      <div class="form-group">
+        <label for="identification">Identification</label>
+        <input type="text" class="form-control" id="identification"
+               [(ngModel)]="model.identification" name="identification">
+      </div>
+
+      <div class="form-group">
+        <label for="position">Position</label>
+        <input type="text" class="form-control" id="position"
+               [(ngModel)]="model.position" name="position">
+      </div>
+
+      <div class="form-group">
+        <label for="salary">Salary</label>
+        <input type="number" class="form-control" id="salary"
+               [(ngModel)]="model.salary" name="salary">
+      </div>
+
+      <div class="form-group">
+        <label for="birthdate">Birthdate</label>
+        <input type="date" class="form-control" id="birthdate"
+               [(ngModel)]="model.birthdate" name="birthdate">
+      </div>
+    
+      <div class="form-group">
+        <label for="age">Age</label>
+        <input type="number" class="form-control" id="age"
+               [(ngModel)]="model.age" name="age">
+      </div>
+
+      <button type="submit" class="btn btn-success" [disabled]="!employeeForm.form.valid">Save</button>
+      <button type="button" class="btn btn-default" (click)="newEmploye(); employeeForm.reset()">New Employe</button>
+    </form>
+  </div>
+
+ 
+</div>
