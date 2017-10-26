@@ -1,9 +1,7 @@
 package com.cuemby.attendance.services.impl;
 
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,7 +37,8 @@ public class AttendanceServiceImpl implements IAttendanceService {
 	@Override
 	public AttendanceDTO create(AttendanceDTO attendanceDto) {
 
-		Optional<Employee> optionalEmployee = employeeRepository.getOne(attendanceDto.getEmployeeId());
+		Optional<Employee> optionalEmployee = employeeRepository.findByIdentification(StatusEmployee.ACTIVE.toString(),
+														attendanceDto.getEmployeeId());
 
 		if (!optionalEmployee.isPresent()) {
 
@@ -68,7 +67,7 @@ public class AttendanceServiceImpl implements IAttendanceService {
 		
 		attList.forEach(atten -> {
 			
-			Optional<Employee> optional = employeeRepository.findAllByStatusId(StatusEmployee.ACTIVE.toString(), "1");
+			Optional<Employee> optional = employeeRepository.findAllByStatusId(StatusEmployee.ACTIVE.toString(), atten.getId());
 			
 			if(optional.isPresent()) {
 				Employee employee = optional.get();

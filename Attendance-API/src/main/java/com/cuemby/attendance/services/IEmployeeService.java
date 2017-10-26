@@ -7,4 +7,6 @@ public interface IEmployeeService extends ICRUDService<EmployeeDTO> {
 
 	void updateEstatusEmployeeInactive(String id);
 
+	EmployeeDTO employeByIdentification(String identification);
+
 }

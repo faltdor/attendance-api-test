@@ -4,11 +4,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 
 import { RegisteremployeComponent } from './components/employee/registeremploye/registeremploye.component';
+import { RegisterComponent } from './components/attendance/register/register.component';
 
 
 const appRoutes: Routes = [
     { path: '',   redirectTo: '/home', pathMatch: 'full' },
 	{path:'home',component:HomeComponent},
+	{path:'attendance',component:RegisterComponent},
 	{path:'createmployee',component:RegisteremployeComponent},
 	//{path:'artist/:id',component:ArtistComponent},
 	//{path:'album/:id',component:AlbumComponent}
@@ -29,4 +31,4 @@ const appRoutes: Routes = [
 })
 
 export class AppRoutingModule{}
-export const routingComponents = [HomeComponent,RegisteremployeComponent]
+export const routingComponents = [HomeComponent,RegisterComponent,RegisteremployeComponent]

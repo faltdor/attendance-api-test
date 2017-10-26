@@ -14,6 +14,9 @@ import { HomeComponent } from './components/home/home.component';
 import { RegisteremployeComponent } from './components/employee/registeremploye/registeremploye.component';
 
 import { EmployeeService } from './services/employee.service';
+import { AttendanceService } from './services/attendance.service';
+
+import { RegisterComponent } from './components/attendance/register/register.component';
 
 
 
@@ -23,7 +26,8 @@ import { EmployeeService } from './services/employee.service';
     AppComponent,
     NavbarComponent,
     HomeComponent,
-    RegisteremployeComponent
+    RegisteremployeComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +36,7 @@ import { EmployeeService } from './services/employee.service';
     AppRoutingModule,
     ReactiveFormsModule
   ],
-  providers: [EmployeeService],
+  providers: [EmployeeService,AttendanceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

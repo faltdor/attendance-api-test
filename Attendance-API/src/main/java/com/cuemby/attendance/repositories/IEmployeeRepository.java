@@ -13,5 +13,6 @@ public interface IEmployeeRepository extends ICustomCrudRepository<Employee, Str
 	public boolean employeeExist(String identification);
 	public List<Employee> findAllByStatus(String status);
 	public Optional<Employee> findAllByStatusId(String status, String employeeId);
+	Optional<Employee> findByIdentification(String status, String identification);
 
 }

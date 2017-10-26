@@ -36,6 +36,12 @@ public class EmployeeController {
 		return new EmployeeListDTO(employeeServiceImpl.listAll());
 	}
 	
+	@GetMapping("/{identification}")
+	@ResponseStatus(HttpStatus.OK)
+	public EmployeeDTO getEmployeByIdentification(@PathVariable String identification){
+		return employeeServiceImpl.employeByIdentification(identification);
+	}
+	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public EmployeeDTO saveEmployee(@Valid @RequestBody EmployeeDTO employeeDto){

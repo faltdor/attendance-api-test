@@ -91,6 +91,14 @@ public class EmployeeRepositoryImpl implements IEmployeeRepository{
 				 .filter(e -> (e.getStatus().equalsIgnoreCase(StatusEmployee.ACTIVE.toString()) && e.getId().equalsIgnoreCase(employeeId)))
 				 .findFirst();
 	}
+	
+	@Override
+	public Optional<Employee> findByIdentification(String status, String identification) {
+		return this.employees.values()
+				 .stream()
+				 .filter(e -> (e.getStatus().equalsIgnoreCase(StatusEmployee.ACTIVE.toString()) && e.getIdentification().equalsIgnoreCase(identification)))
+				 .findFirst();
+	}
 
 	
 

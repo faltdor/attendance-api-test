@@ -1,0 +1,38 @@
+<div class="container">
+  <div>
+       <div class="alert alert-dismissible alert-success" *ngIf="messageOK">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Well done!</strong> {{messageOK}}
+      </div>
+      <div class="alert alert-dismissible alert-danger" *ngIf="messageError">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Oh snap!</strong> {{messageError}}
+      </div>
+
+    <h1>Register Attendance</h1>
+
+
+
+    <form (ngSubmit)="onSubmit()" #employeeForm="ngForm">
+      <div class="form-group">
+        <label for="employeeId">Identification</label>
+        <input type="text" class="form-control" id="employeeId"
+               required
+               [(ngModel)]="model.employeeId" name="employeeId"
+               #employeeId="ngModel">
+        
+      </div>
+
+      <div class="form-group">
+        <label for="currentDateAssistance">Date</label>
+        <input type="date" disabled="true" class="form-control" id="currentDateAssistance"
+               [(ngModel)]="model.currentDateAssistance" name="currentDateAssistance">
+      </div>
+
+      <button type="submit" class="btn btn-primary" [disabled]="!employeeForm.form.valid">Save</button>
+      <button type="button" class="btn btn-default" (click)="newEmploye(); employeeForm.reset()">New Register</button>
+    </form>
+  </div>
+
+ 
+</div>

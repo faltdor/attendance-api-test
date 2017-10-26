@@ -1,11 +1,13 @@
 package com.cuemby.attendance.services.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.cuemby.attendance.domain.Employee;
+import com.cuemby.attendance.enums.StatusEmployee;
 import com.cuemby.attendance.repositories.IEmployeeRepository;
 import com.cuemby.attendance.services.IEmployeeService;
 import com.cuemby.attendance.services.exception.ResourceAlreadyExistsException;
@@ -57,6 +59,18 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		}).orElseThrow(ResourceNotFoundException::new);
 
 				
+	}
+	
+	@Override
+	public EmployeeDTO employeByIdentification(String identification) {
+		
+		Optional<Employee> optional = employeeRepository.findByIdentification(StatusEmployee.ACTIVE.toString(), identification);
+		
+		if(!optional.isPresent()) {
+			throw new ResourceNotFoundException();
+		}
+		
+		return employeeMapper.employeeToEmployeeDTO(optional.get());
 	}
 
 }

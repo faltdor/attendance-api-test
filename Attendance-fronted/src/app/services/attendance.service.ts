@@ -7,31 +7,23 @@ import 'rxjs/add/operator/toPromise';
 
 
 @Injectable()
-export class EmployeeService {
-  
-  private employeUrl: string = '/api/v1/employee';
+export class AttendanceService {
+
+  private attendanceUrl: string = "/api/v1/attendance";
 
   constructor(private _http:Http) { }
 
 
-  saveEmployee(employee){
+    resgisterAttendance(attendance){
 	  	
 	  	let headers = new Headers({ 'Content-Type': 'application/json' });
    		let options = new RequestOptions({ headers: headers });
 
-	    return this._http.post(this.employeUrl,employee,options)
+	    return this._http.post(this.attendanceUrl,attendance,options)
 	  					  .map(res => res.json());
 	  					  
     
   }
-
-
-  searchByidentification(identification:string){
-  	return this._http.get(this.employeUrl+"/"+identification)
-	  					  .map(res => res.json());
-  }
-
-  
 
 
 }
