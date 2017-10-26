@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -166,9 +167,45 @@ public class EmployeeRepositoryImplTest {
 		assertThat(employee).isNotNull();
 
 		List<Employee> result = employeeRepositoryImpl.findAllByStatus(StatusEmployee.INACTIVE.toString());
-		
+
 		assertThat(result).isNotNull();
 		assertThat(result.isEmpty()).isEqualTo(true);
+
+	}
+
+	@Test
+	public void testFindAllByStatusId() {
+
+		// Given
+		Employee employee1 = new Employee();
+		employee1.setId("1");
+		employee1.setFirstName("Employee one");
+		employee1.setIdentification("123456733");
+		employee1.setStatus(StatusEmployee.ACTIVE.toString());
+		
+		employeeRepositoryImpl.update(employee1);
+		
+		Employee employee2 = new Employee();
+		employee2.setId("2");
+		employee2.setFirstName("Employee two");
+		employee2.setIdentification("1234567344");
+		employee2.setStatus(StatusEmployee.INACTIVE.toString());
+		
+		employeeRepositoryImpl.update(employee2);
+		
+		Employee employee3 = new Employee();
+		employee3.setId("3");
+		employee3.setFirstName("Employee three");
+		employee3.setIdentification("12345674455");
+		employee3.setStatus(StatusEmployee.INACTIVE.toString());
+		employeeRepositoryImpl.update(employee3);
+		
+		
+		Optional<Employee> listActives = employeeRepositoryImpl.findAllByStatusId(StatusEmployee.ACTIVE.toString(), "1");
+		
+		assertThat(listActives).isNotNull();
+		assertThat(listActives.isPresent()).isEqualTo(true);
+		
 
 	}
 

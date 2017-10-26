@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
+import com.cuemby.attendance.domain.Attendance;
 import com.cuemby.attendance.domain.Employee;
 import com.cuemby.attendance.domain.factories.UUIDCreator;
 import com.cuemby.attendance.enums.StatusEmployee;
@@ -81,6 +82,14 @@ public class EmployeeRepositoryImpl implements IEmployeeRepository{
 				 .findFirst();
 		
 		return employeeOptional.isPresent();
+	}
+
+	@Override
+	public Optional<Employee> findAllByStatusId(String status, String employeeId) {
+		return this.employees.values()
+				 .stream()
+				 .filter(e -> (e.getStatus().equalsIgnoreCase(StatusEmployee.ACTIVE.toString()) && e.getId().equalsIgnoreCase(employeeId)))
+				 .findFirst();
 	}
 
 	

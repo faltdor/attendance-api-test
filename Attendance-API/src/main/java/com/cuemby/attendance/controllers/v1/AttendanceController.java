@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cuemby.attendance.services.impl.AttendanceServiceImpl;
 import com.cuemby.attendance.v1.model.AttendanceDTO;
+import com.cuemby.attendance.v1.model.AttendanceEmployeesDTO;
+import com.cuemby.attendance.v1.model.AttendanceFilterDTO;
 import com.cuemby.attendance.v1.model.AttendanceListDTO;
 
 @RestController
@@ -36,6 +38,12 @@ public class AttendanceController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public AttendanceDTO saveAttendance(@Valid @RequestBody AttendanceDTO attendanceDto) {
 		return attendanceServiceImpl.create(attendanceDto);
+	}
+	
+	@GetMapping("/employees")
+	@ResponseStatus(HttpStatus.OK)
+	public AttendanceEmployeesDTO getEmployeesAttendance(@Valid @RequestBody AttendanceFilterDTO filter) {
+		return new AttendanceEmployeesDTO(attendanceServiceImpl.listEmployeeAttendance(filter));
 	}
 
 }

@@ -1,5 +1,10 @@
 package com.cuemby.attendance.services.impl;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -8,11 +13,14 @@ import org.springframework.stereotype.Service;
 
 import com.cuemby.attendance.domain.Attendance;
 import com.cuemby.attendance.domain.Employee;
+import com.cuemby.attendance.enums.StatusEmployee;
 import com.cuemby.attendance.repositories.IAttendanceRespository;
 import com.cuemby.attendance.repositories.IEmployeeRepository;
 import com.cuemby.attendance.services.IAttendanceService;
 import com.cuemby.attendance.services.exception.ResourceNotFoundException;
 import com.cuemby.attendance.v1.model.AttendanceDTO;
+import com.cuemby.attendance.v1.model.AttendanceEmployeeDTO;
+import com.cuemby.attendance.v1.model.AttendanceFilterDTO;
 import com.cuemby.attendance.v1.model.mappers.IAttendanceMapper;
 
 @Service
@@ -50,5 +58,42 @@ public class AttendanceServiceImpl implements IAttendanceService {
 		return attendanceRepository.findAll().values().stream().map(attendanceMapper::attendanceToAttendanceDTO)
 				.collect(Collectors.toList());
 	}
+	
+	@Override
+	public List<AttendanceEmployeeDTO> listEmployeeAttendance(AttendanceFilterDTO attendanceFilter) {
+		
+		List<Attendance> attList = attendanceRepository.findAllByDateInitDateEnd(attendanceFilter.getDateInit(),attendanceFilter.getDateEnd());
+		
+		List<AttendanceEmployeeDTO> listAttendance = new ArrayList<>(attList.size());
+		
+		
+		attList.forEach(atten -> {
+			
+			Optional<Employee> optional = employeeRepository.findAllByStatusId(StatusEmployee.ACTIVE.toString(), "1");
+			
+			if(optional.isPresent()) {
+				Employee employee = optional.get();
+				listAttendance.add(
+						new AttendanceEmployeeDTO(atten.getCurrentDateAssistance(),
+								employee.getId(),
+								employee.getIdentification(),
+								employee.getFirstName(),
+								employee.getLastName(),
+								employee.getAge(),
+								employee.getPosition(),
+								employee.getSalary(),
+								employee.getBirthdate(),
+								employee.getDateAdmission(),
+								employee.getStatus()));
+				
+			}
+					
+			
+		});
+		
+		
+		return listAttendance;
+	}
+
 
 }

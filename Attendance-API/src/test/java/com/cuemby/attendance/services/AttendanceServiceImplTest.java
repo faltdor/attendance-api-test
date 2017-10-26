@@ -11,11 +11,17 @@ import static org.mockito.Mockito.when;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,11 +30,13 @@ import org.mockito.MockitoAnnotations;
 
 import com.cuemby.attendance.domain.Attendance;
 import com.cuemby.attendance.domain.Employee;
+import com.cuemby.attendance.enums.StatusEmployee;
 import com.cuemby.attendance.repositories.IAttendanceRespository;
 import com.cuemby.attendance.repositories.IEmployeeRepository;
 import com.cuemby.attendance.services.exception.ResourceNotFoundException;
 import com.cuemby.attendance.services.impl.AttendanceServiceImpl;
 import com.cuemby.attendance.v1.model.AttendanceDTO;
+import com.cuemby.attendance.v1.model.AttendanceEmployeeDTO;
 import com.cuemby.attendance.v1.model.mappers.IAttendanceMapper;
 
 public class AttendanceServiceImplTest {
@@ -47,7 +55,8 @@ public class AttendanceServiceImplTest {
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		this.attendanceServiceImpl = new AttendanceServiceImpl(attendanceRepository, IAttendanceMapper.INSTANCE,employeeRepository);
+		this.attendanceServiceImpl = new AttendanceServiceImpl(attendanceRepository, IAttendanceMapper.INSTANCE,
+				employeeRepository);
 	}
 
 	@Test
@@ -63,14 +72,14 @@ public class AttendanceServiceImplTest {
 			AttendanceDTO attendanceDTO = new AttendanceDTO();
 			attendanceDTO.setEmployeeId("11111111");
 			attendanceDTO.setCurrentDateAssistance(new SimpleDateFormat("yyyy-MM-dd").parse(dateAssistance));
-			
+
 			Employee employee1 = new Employee();
 			employee1.setId("11111111");
 			employee1.setFirstName("Emple 1");
 			employee1.setIdentification("9999999");
-			
+
 			when(employeeRepository.getOne(anyString())).thenReturn(Optional.of(employee1));
-			
+
 			when(attendanceRepository.save(any(Attendance.class))).thenReturn(attendance);
 
 			// When
@@ -124,6 +133,79 @@ public class AttendanceServiceImplTest {
 
 	}
 
-	
+	@Test
+	public void testListAttendance() {
+		try {
+			Attendance attendance = new Attendance();
+			attendance.setId("1");
+			attendance.setEmployeeId("1");
+			attendance.setCurrentDateAssistance(new SimpleDateFormat("yyyy-MM-dd").parse("2017-01-01"));
+
+			Attendance attendance2 = new Attendance();
+			attendance2.setId("1");
+			attendance2.setEmployeeId("1");
+			attendance2.setCurrentDateAssistance(new SimpleDateFormat("yyyy-MM-dd").parse("2017-01-15"));
+			
+			Attendance attendance3 = new Attendance();
+			attendance3.setId("1");
+			attendance3.setEmployeeId("1");
+			attendance3.setCurrentDateAssistance(new SimpleDateFormat("yyyy-MM-dd").parse("2017-01-30"));
+			
+			
+			
+			// when
+			Date dateInit = new SimpleDateFormat("yyyy-MM-dd").parse("2017-01-01");
+			Date dateEnd = new SimpleDateFormat("yyyy-MM-dd").parse("2017-02-01");
+			
+			List<Attendance> listAtte = Arrays.asList(attendance,attendance2,attendance3);
+			
+			when(attendanceRepository.findAllByDateInitDateEnd(any(),any())).thenReturn(listAtte);
+			
+			Employee employee1 = new Employee();
+			employee1.setId("1");
+			employee1.setFirstName("Employee one");
+			employee1.setIdentification("123456733");
+			employee1.setStatus(StatusEmployee.ACTIVE.toString());
+			
+			when(employeeRepository.findAllByStatusId(anyString(), anyString())).thenReturn(Optional.of(employee1));
+			
+			List<Attendance> attList = attendanceRepository.findAllByDateInitDateEnd(dateInit,dateEnd);
+			assertThat(attList).isNotEmpty();
+			
+			List<AttendanceEmployeeDTO> listAttendance = new ArrayList<>(attList.size());
+			
+			
+			attList.forEach(atten -> {
+				
+				Optional<Employee> optional = employeeRepository.findAllByStatusId(StatusEmployee.ACTIVE.toString(), "1");
+				
+				if(optional.isPresent()) {
+					Employee employee = optional.get();
+					listAttendance.add(
+							new AttendanceEmployeeDTO(atten.getCurrentDateAssistance(),
+									employee.getId(),
+									employee.getIdentification(),
+									employee.getFirstName(),
+									employee.getLastName(),
+									employee.getAge(),
+									employee.getPosition(),
+									employee.getSalary(),
+									employee.getBirthdate(),
+									employee.getDateAdmission(),
+									employee.getStatus()));
+					
+				}
+						
+				
+			});
+			
+			assertThat(listAttendance).isNotEmpty();
+			
+			
+		} catch (ParseException e) {
+			fail(e.getMessage());
+		}
+
+	}
 
 }

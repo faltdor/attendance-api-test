@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -37,8 +38,33 @@ public class DevBootstrap  implements ApplicationListener<ContextRefreshedEvent>
 	public void onApplicationEvent(ContextRefreshedEvent arg0) {
 		log.debug("Saving data to Dababase ");
 		try {
-			attendanceRepositoryImpl.saveAll(getAllattendance());
-			//employeeRepositoryImpl.saveAll(getAllEmployees());
+			employeeRepositoryImpl.saveAll(getAllEmployees());
+			
+			
+			
+			
+			employeeRepositoryImpl.findAll().values().forEach(empl ->{
+					
+					String dateAssistance = "2016-08-03";
+				
+					Attendance attendance1 = new Attendance();
+					attendance1.setEmployeeId(empl.getId());
+					
+					try {
+						attendance1.setCurrentDateAssistance(new SimpleDateFormat("yyyy-MM-dd").parse(dateAssistance));
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					
+					attendanceRepositoryImpl.save(attendance1);
+					
+				
+				
+			});
+			
+			
+//			attendanceRepositoryImpl.saveAll(getAllattendance());
+			
 		} catch (ParseException e) {
 			 log.error(e.getMessage());
 		}

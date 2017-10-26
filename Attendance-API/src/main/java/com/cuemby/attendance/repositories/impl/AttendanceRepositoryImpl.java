@@ -1,8 +1,11 @@
 package com.cuemby.attendance.repositories.impl;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
@@ -54,6 +57,13 @@ public class AttendanceRepositoryImpl implements IAttendanceRespository {
 		return this.attendanceList.values().stream().
 				 filter(e-> e.getId().equalsIgnoreCase(id))
 				 .findFirst();
+	}
+
+	@Override
+	public List<Attendance> findAllByDateInitDateEnd(Date dateInit, Date dateEnd) {
+		return this.attendanceList.values().stream().
+		 filter(e-> (e.getCurrentDateAssistance().after(dateInit) || e.getCurrentDateAssistance().before(dateEnd)) == true)
+		 .collect(Collectors.toList());
 	}
 
 }

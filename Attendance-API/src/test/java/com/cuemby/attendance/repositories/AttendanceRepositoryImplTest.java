@@ -7,6 +7,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -116,6 +118,43 @@ public class AttendanceRepositoryImplTest {
 			fail(e.getMessage());
 		}
 
+	}
+	
+	@Test
+	public void testFindAllByDateInitDateEnd() throws ParseException {
+		String dateAssistance = "2017-01-01";
+		Attendance attendance = new Attendance();
+		attendance.setId("1");
+		attendance.setEmployeeId("1234455");
+		attendance.setCurrentDateAssistance(new SimpleDateFormat("yyyy-MM-dd").parse(dateAssistance));
+
+		Attendance attendance2 = new Attendance();
+		attendance2.setId("1");
+		attendance2.setEmployeeId("1234455");
+		attendance2.setCurrentDateAssistance(new SimpleDateFormat("yyyy-MM-dd").parse("2017-01-15"));
+		
+		Attendance attendance3 = new Attendance();
+		attendance3.setId("1");
+		attendance3.setEmployeeId("1234455");
+		attendance3.setCurrentDateAssistance(new SimpleDateFormat("yyyy-MM-dd").parse("2017-01-30"));
+		
+		// when
+		Attendance attendanceResult = attendanceRepositoryImpl.save(attendance);
+		attendanceRepositoryImpl.save(attendance2);
+		attendanceRepositoryImpl.save(attendance3);
+		
+		Date dateInit = new SimpleDateFormat("yyyy-MM-dd").parse("2017-01-01");
+		Date dateEnd = new SimpleDateFormat("yyyy-MM-dd").parse("2017-02-01");
+		
+		
+		List<Attendance> listAtte = attendanceRepositoryImpl.findAllByDateInitDateEnd(dateInit, dateEnd);
+		
+		
+		// Then
+		assertThat(attendanceResult).isNotNull();
+		assertThat(listAtte).isNotEmpty();
+		
+		
 	}
 
 	
