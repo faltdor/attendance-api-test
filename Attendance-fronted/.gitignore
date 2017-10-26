@@ -8,6 +8,8 @@
 # dependencies
 /node_modules
 
+Angular2_Spotify/
+
 # IDEs and editors
 /.idea
 .project
