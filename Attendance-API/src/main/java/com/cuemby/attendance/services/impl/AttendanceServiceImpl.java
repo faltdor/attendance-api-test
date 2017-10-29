@@ -1,7 +1,10 @@
 package com.cuemby.attendance.services.impl;
 
 
+import java.text.ParseException;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -18,7 +21,9 @@ import com.cuemby.attendance.model.v1.mappers.IAttendanceMapper;
 import com.cuemby.attendance.repositories.IAttendanceRespository;
 import com.cuemby.attendance.repositories.IEmployeeRepository;
 import com.cuemby.attendance.services.IAttendanceService;
+import com.cuemby.attendance.services.exception.BadArgumentFormatException;
 import com.cuemby.attendance.services.exception.ResourceNotFoundException;
+import com.cuemby.attendance.utils.ConverterDateFormatter;
 
 @Service
 public class AttendanceServiceImpl implements IAttendanceService {
@@ -58,9 +63,17 @@ public class AttendanceServiceImpl implements IAttendanceService {
 	}
 	
 	@Override
-	public List<AttendanceEmployeeDTO> listEmployeeAttendance(AttendanceFilterDTO attendanceFilter) {
+	public List<AttendanceEmployeeDTO> listEmployeeAttendance(String init,String end) {
+		Date dateInit ;
+		Date dateEnd;
+		try {
+			dateEnd = ConverterDateFormatter.getDateFromString(end, ConverterDateFormatter.YYYYMMDD);
+			dateInit = ConverterDateFormatter.getDateFromString(init, ConverterDateFormatter.YYYYMMDD);
+		} catch (DateTimeParseException | ParseException e) {
+			throw new BadArgumentFormatException("Error creating the parameters to date type. The expected format was yyyy/MM/dd and "+init+" : "+end+" was received");
+		} 
 		
-		List<Attendance> attList = attendanceRepository.findAllByDateInitDateEnd(attendanceFilter.getDateInit(),attendanceFilter.getDateEnd());
+		List<Attendance> attList = attendanceRepository.findAllByDateInitDateEnd(dateInit,dateEnd);
 		
 		if (attList.isEmpty()) {
 

@@ -24,7 +24,7 @@ export class AttendanceService {
   }
 
    getEmployeesAttendance(attendance){	
-	    return this._http.post(this.attendanceUrl+"/employees",attendance,this.options)
+	    return this._http.get(this.attendanceUrl+"/employees/report/dateInit/"+attendance.dateInit+"/dateEnd/"+attendance.dateEnd+"")
 	  					  .map(res => res.json()); 					  
     
   }

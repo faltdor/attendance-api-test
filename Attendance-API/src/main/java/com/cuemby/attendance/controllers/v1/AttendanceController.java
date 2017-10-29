@@ -6,9 +6,11 @@ import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,11 +44,10 @@ public class AttendanceController {
 		return attendanceServiceImpl.create(attendanceDto);
 	}
 	
-	@PostMapping("/employees")
+	@GetMapping("/employees/report/dateInit/{dateInit}/dateEnd/{dateEnd}")
 	@ResponseStatus(HttpStatus.OK)
-	public AttendanceEmployeesDTO getEmployeesAttendance(@RequestBody AttendanceFilterDTO filter ) {
-		
-		return new AttendanceEmployeesDTO(attendanceServiceImpl.listEmployeeAttendance(new AttendanceFilterDTO(filter.getDateInit(),filter.getDateEnd())));
+	public AttendanceEmployeesDTO getEmployeesAttendance(@PathVariable String dateInit,@PathVariable String dateEnd ) {
+		return new AttendanceEmployeesDTO(attendanceServiceImpl.listEmployeeAttendance(dateInit,dateEnd));
 	}
 
 }

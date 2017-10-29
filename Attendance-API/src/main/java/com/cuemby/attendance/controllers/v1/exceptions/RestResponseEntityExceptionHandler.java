@@ -1,5 +1,7 @@
 package com.cuemby.attendance.controllers.v1.exceptions;
 
+import java.text.ParseException;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +37,14 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 //		return new ResponseEntity<Object>( exception.getMessage() != null ?  exception.getMessage():"Field error in object 'employeeDTO",
 //									new HttpHeaders(),HttpStatus.BAD_REQUEST);
 //	}
+	
+	
+	@ExceptionHandler({ParseException.class})
+	public ResponseEntity<Object> handleParserArgumentException(Exception exception,WebRequest request ){
+		
+		return new ResponseEntity<Object>( exception.getMessage() != null ?  exception.getMessage():"Fail parsing Date params",
+									new HttpHeaders(),HttpStatus.CONFLICT);
+	}
 	
 	
 

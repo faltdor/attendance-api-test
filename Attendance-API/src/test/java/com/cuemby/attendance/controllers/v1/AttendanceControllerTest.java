@@ -13,10 +13,14 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -26,6 +30,8 @@ import com.cuemby.attendance.services.impl.AttendanceServiceImpl;
 
 import static org.mockito.Matchers.any;
 
+
+@AutoConfigureRestDocs(outputDir = "target/snippets")
 public class AttendanceControllerTest extends AbstractRestControllerTest {
 
 	@Mock

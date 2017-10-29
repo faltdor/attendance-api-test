@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.cuemby.attendance.model.v1.AttendanceDTO;
 import com.cuemby.attendance.model.v1.AttendanceEmployeeDTO;
-import com.cuemby.attendance.model.v1.AttendanceFilterDTO;
 
 public interface IAttendanceService {
 	
@@ -12,6 +11,7 @@ public interface IAttendanceService {
 
 	public List<AttendanceDTO> listAll();
 
-	public List<AttendanceEmployeeDTO> listEmployeeAttendance(AttendanceFilterDTO attendanceFilter);
+	public List<AttendanceEmployeeDTO> listEmployeeAttendance(String dateInit, String dateEnd);
+
 }
   

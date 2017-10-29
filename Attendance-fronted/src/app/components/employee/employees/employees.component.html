@@ -1,49 +1,56 @@
 <div class="container">
+   <div class="row">
+   		<div class="col-xs-12">
+   			
+ 
+			<div class="alert alert-dismissible alert-success" *ngIf="messageOK">
+		        <button type="button" class="close" data-dismiss="alert">&times;</button>
+		        <strong>Well done!</strong> {{messageOK}}
+		      </div>
+		      <div class="alert alert-dismissible alert-danger" *ngIf="messageError">
+		        <button type="button" class="close" data-dismiss="alert">&times;</button>
+		        <strong>Oh snap!</strong> {{messageError}}
+		      </div>
 
-	<div class="alert alert-dismissible alert-success" *ngIf="messageOK">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <strong>Well done!</strong> {{messageOK}}
-      </div>
-      <div class="alert alert-dismissible alert-danger" *ngIf="messageError">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <strong>Oh snap!</strong> {{messageError}}
-      </div>
-
-<div class="panel panel-default">
-  <div class="panel-heading">Active Employees</div>
-  <div class="panel-body">
-   <table class="table table-striped table-hover ">
-	  <thead>
-	    <tr>
-	      <th>#</th>
-	      <th>Name</th>
-	      <th>Identification</th>
-	      <th>Position</th>
-	      <th>Salary</th>
-	      <th>Birthdate</th>
-	      <th>Date Admission</th>
-	      <th>Age</th>
-	      <th></th>
-	    </tr>
-	  </thead>
-	  <tbody>
-	    <tr *ngFor="let employee of employees;let i=index">
-	      <td>{{i}}</td>
-	      <td>{{employee.firstName}} {{employee.lastName}}</td>
-	      <td>{{employee.identification}}</td>
-	      <td>{{employee.position}}</td>
-	       <td>{{employee.salary | currency}}</td>
-	        <td>{{employee.birthdate | date:"yyyy/MM/dd"}}</td>
-	         <td>{{employee.dateAdmission | date:"yyyy/MM/dd"}}</td>
-	         <td>{{employee.age}}</td>
-	         <th><button (click)="onDeleteEmployee(employee.id)" class="btn btn-danger">Delete!</button></th>
-	    </tr>
-	    </tbody>
-	 </table>
-  </div>
-</div>
+		<div class="panel panel-default">
+		  <div class="panel-heading">Active Employees</div>
+		  <div class="panel-body ">
+		  <div class="table-responsive">
+		   <table class="table table-striped table-hover ">
+			  <thead>
+			    <tr>
+			      <th>#</th>
+			      <th>Name</th>
+			      <th>Identification</th>
+			      <th>Position</th>
+			      <th>Salary</th>
+			      <th>Birthdate</th>
+			      <th>Date Admission</th>
+			      <th>Age</th>
+			      <th></th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr *ngFor="let employee of employees;let i=index">
+			      <td>{{i}}</td>
+			      <td>{{employee.firstName}} {{employee.lastName}}</td>
+			      <td>{{employee.identification}}</td>
+			      <td>{{employee.position}}</td>
+			       <td>{{employee.salary | currency}}</td>
+			        <td>{{employee.birthdate | date:"yyyy/MM/dd"}}</td>
+			         <td>{{employee.dateAdmission | date:"yyyy/MM/dd"}}</td>
+			         <td>{{employee.age}}</td>
+			         <th><button (click)="onDeleteEmployee(employee.id)" class="btn btn-danger">Delete!</button></th>
+			    </tr>
+			    </tbody>
+			 </table>
+			 </div>
+		  </div>
+		</div>
 
 
 
-	
- </div>
+			
+		 </div>
+   		</div>
+   </div>
