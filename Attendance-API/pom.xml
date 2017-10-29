@@ -100,7 +100,7 @@
 							</outputDirectory>
 							<resources>
 								<resource>
-									<directory>${basedir}/../Attendance-fronted/dist</directory>
+									<directory>${basedir}/Attendance-fronted/dist</directory>
 								</resource>
 							</resources>
 						</configuration>
