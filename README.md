@@ -2,6 +2,10 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.9. and Spring-Boot 1.5.9.BUILD-SNAPSHOT
 
+[![CircleCI](https://circleci.com/gh/faltdor/attendance-api-test.svg?style=svg)](https://circleci.com/gh/faltdor/attendance-api-test)
+
+[![codecov](https://codecov.io/gh/faltdor/attendance-api-test/branch/master/graph/badge.svg)](https://codecov.io/gh/faltdor/attendance-api-test)
+
 ## Build Attendance-frontend 
 
 Run `ng build -prod` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
